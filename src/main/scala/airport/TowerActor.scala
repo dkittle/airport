@@ -49,19 +49,20 @@ class TowerActor extends Actor with ActorLogging {
       if (waitingAircraft.isEmpty) {
         log.debug("No aircraft waiting for a runway")
         overseer ! RunwayEmpty
-      }
-      waitingAircraft.dequeue() match {
-        case (airplaneRef, activity) =>
-          activity match {
-            case Land =>
-              log.debug(
-                s"${airplaneRef.path} is being assigned to runway for landing")
-              airplaneRef ! LandingClearance
-            case Takeoff =>
-              log.debug(
-                s"${airplaneRef.path} is being assigned to runway for takeoff")
-              airplaneRef ! TakeoffClearance
-          }
+      } else {
+        waitingAircraft.dequeue() match {
+          case (airplaneRef, activity) =>
+            activity match {
+              case Land =>
+                log.debug(
+                  s"${airplaneRef.path} is being assigned to runway for landing")
+                airplaneRef ! LandingClearance
+              case Takeoff =>
+                log.debug(
+                  s"${airplaneRef.path} is being assigned to runway for takeoff")
+                airplaneRef ! TakeoffClearance
+            }
+        }
       }
   }
 }
