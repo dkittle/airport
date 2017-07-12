@@ -1,8 +1,8 @@
 package airport
 
-import airport.AirplaneActor.{LandingClearance, TakeoffClearance}
-import airport.TowerActor.{InitializeTower, RequestLanding, RequestTakeoff}
-import akka.actor.{ActorSystem, Props}
+import airport.ActivityDetails._
+import airport.TowerActor.{RequestLanding, RequestTakeoff}
+import akka.actor.ActorSystem
 import akka.testkit.{ImplicitSender, TestActorRef, TestKit}
 import org.scalatest.{
   BeforeAndAfterAll,

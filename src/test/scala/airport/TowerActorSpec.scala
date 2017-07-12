@@ -53,6 +53,7 @@ class TowerActorSpec
       Given("a tower actor and another aircraft already on runway")
       val actorRef = TestActorRef(Props(classOf[TowerActor]))
       actorRef ! InitializeTower
+
       When("a RequestTakeoff message is sent")
       actorRef ! RequestTakeoff
       Then("the tower should send TakeoffClearance")

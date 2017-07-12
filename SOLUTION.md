@@ -1,17 +1,18 @@
 # Don's Solution
 
 # Initialization
-There is a main object `AirportMain` that get the application going. It spins up an `AirportSupervisorActor` that will 
-get the system going.
+There is a main object `AirportMain` that gets the application going. It creates an HTTP server with two REST endpoints,
+ one to create airplanes and another to end the simulation. `AirportMain` also spins up an `AirportSupervisorActor` 
+ that will create the `TowerActor`.
 
 The supervisor becomes an _overseer_ of the `TowerActor` when it initializes the `TowerActor`. When an `AirplaneActor` 
 relinquishes a runway back to the `TowerActor` and there are no other airplanes waiting to get access to the runway, the 
-`TowerActor` sends it's overseer a message that the runway is empty. The `AirportSupervisorActor` will then end the 
-simulation.
+`TowerActor` sends it's overseer a message that the runway is empty. We could likely end the simulation at this point.
 
 Airplanes perform activities at discreet points in time. The `AirportSupervisorActor` instantiates `AirplaneActors` with
 the details of the activity to perform and the timing around those activities (the delay in seconds before the activity 
 starts, timed from the beginning of the simulation and the duration of the activity in seconds).
+
 
 # Simulation Runtime
 Airplanes schedule their activity to start a specific number of seconds after the simulation starts. The number of 
@@ -22,8 +23,3 @@ seconds is the `delay` property of `ActivityDetails`. They will attempt to perfo
  when the runway is free. If the runway frees up and there are no more aircraft in the queue, the `TowerActor` will send
  it's overseer an `EmptyRunway` messaging, allowing the overseer to end the simulation.
  
-# What's Missing
-Uh, I appear to have ignored the part in the assignment where I read a file to initialize the system.
- 
-I'll add that in a future iteration.
-

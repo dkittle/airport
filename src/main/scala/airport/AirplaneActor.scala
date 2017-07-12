@@ -16,9 +16,13 @@ class AirplaneActor(tower: ActorRef, activity: ActivityDetails)
     extends Actor
     with ActorLogging {
 
+  import airport.ActivityDetails._
+
   var scheduledTask: Cancellable =
     context.system.scheduler
-      .scheduleOnce(activity.delay.seconds, self, activity.activity)
+      .scheduleOnce(activity.delay.seconds,
+                    self,
+                    string2aircraftActivity(activity.activity))
   log.debug(
     s"${activity.flight} will want to ${activity.activity} in ${activity.delay} seconds.")
 
@@ -42,6 +46,7 @@ class AirplaneActor(tower: ActorRef, activity: ActivityDetails)
     case TakeoffClearance =>
       log.debug(s"Flight ${activity.flight} is taking off")
       scheduledTask = relinquishRunWhenDone()
+    case e => log.warning(s"Unknown message received ${e.toString}")
   }
 
   def relinquishRunWhenDone(): Cancellable =
