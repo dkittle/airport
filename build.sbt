@@ -17,3 +17,11 @@ libraryDependencies ++= {
     "org.scalatest" % "scalatest_2.11" % "3.0.1" % "test"
   )
 }
+
+scalacOptions ++= List(
+  "-unchecked",
+  "-deprecation",
+  "-language:_",
+  "-encoding",
+  "UTF-8"
+)
