@@ -1,30 +1,19 @@
 package airport
 
-import airport.AirplaneActor.{
-  Circle,
-  HoldOnTaxiway,
-  LandingClearance,
-  TakeoffClearance
-}
+import airport.AirplaneActor.{Circle, HoldOnTaxiway, LandingClearance, TakeoffClearance}
 import airport.TowerActor.{RelinquishRunway, RequestLanding, RequestTakeoff}
 import akka.actor.{Actor, ActorLogging, ActorRef, Cancellable, Props}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 
-class AirplaneActor(tower: ActorRef, activity: ActivityDetails)
-    extends Actor
-    with ActorLogging {
+class AirplaneActor(tower: ActorRef, activity: ActivityDetails) extends Actor with ActorLogging {
 
   import airport.ActivityDetails._
 
   var scheduledTask: Cancellable =
-    context.system.scheduler
-      .scheduleOnce(activity.delay.seconds,
-                    self,
-                    string2aircraftActivity(activity.activity))
-  log.debug(
-    s"${activity.flight} will want to ${activity.activity} in ${activity.delay} seconds.")
+    context.system.scheduler.scheduleOnce(activity.delay.seconds, self, string2aircraftActivity(activity.activity))
+  log.debug(s"${activity.flight} will want to ${activity.activity} in ${activity.delay} seconds.")
 
   override def receive: Receive = {
     case Land =>
@@ -38,20 +27,18 @@ class AirplaneActor(tower: ActorRef, activity: ActivityDetails)
     case Circle =>
       log.debug(s"${activity.flight} is circling until a runway is available")
     case HoldOnTaxiway =>
-      log.debug(
-        s"${activity.flight} is holding on a taxiway until a runway is available")
+      log.debug(s"${activity.flight} is holding on a taxiway until a runway is available")
     case LandingClearance =>
       log.debug(s"Flight ${activity.flight} is landing")
-      scheduledTask = relinquishRunWhenDone()
+      scheduledTask = relinquishRunwayWhenDone()
     case TakeoffClearance =>
       log.debug(s"Flight ${activity.flight} is taking off")
-      scheduledTask = relinquishRunWhenDone()
+      scheduledTask = relinquishRunwayWhenDone()
     case e => log.warning(s"Unknown message received ${e.toString}")
   }
 
-  def relinquishRunWhenDone(): Cancellable =
-    context.system.scheduler
-      .scheduleOnce(activity.duration.seconds, tower, RelinquishRunway)
+  def relinquishRunwayWhenDone(): Cancellable =
+    context.system.scheduler.scheduleOnce(activity.duration.seconds, tower, RelinquishRunway)
 }
 
 object AirplaneActor {
