@@ -5,12 +5,13 @@ import airport.AirplaneActor.{LandingClearance, TakeoffClearance}
 import airport.TowerActor.{InitializeTower, RequestLanding, RequestTakeoff}
 import akka.actor.{ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestActorRef, TestKit}
+import com.typesafe.config.ConfigFactory
 import org.scalatest.{BeforeAndAfterAll, FeatureSpecLike, GivenWhenThen, Matchers}
 
 import scala.concurrent.duration._
 
 class TowerActorSpec
-    extends TestKit(ActorSystem("test-system"))
+    extends TestKit(ActorSystem("test-system", ConfigFactory.parseString("akka.loglevel = OFF")))
     with ImplicitSender
     with FeatureSpecLike
     with GivenWhenThen
