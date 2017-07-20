@@ -24,7 +24,7 @@ We’d like you to
 ## What We Will Evaluate
 - Your solution should work
 - We should be able to see the flow of control from the logging statements generated
-- Your solution should be event driven - you do not need to use an external messaging system (RabbitMQ, Resque, ActiveMQ, SQS, etc) but it can. You can also build services that communicate using pub/sub communication, Akka actors or any other solution that passes typed messages between loosely coupled services.
+- Your solution should be event driven - you do not need to use an external messaging system (RabbitMQ, Resque, ActiveMQ, SQS, etc) but you can. You can also build services that communicate using pub/sub communication, Akka actors or any other solution that passes typed messages between loosely coupled services.
 - We’d like to see test coverage, where it seems important
 
 ## A few things to keep in mind

@@ -49,9 +49,9 @@ class TowerActorSpec
       Given("a tower actor and another aircraft already on runway")
       val actorRef = TestActorRef(new TowerActor)
       actorRef ! InitializeTower
-      val airplane1 = TestActorRef(new AirplaneActor(actorRef, ActivityDetails("123", Takeoff, 20, 0)), "123")
+      val airplane1 = TestActorRef(new AirplaneActor(actorRef, ActivityDetails("123", Takeoff, 20, 0)), "Flight-123")
       When("a second airplane wants to take off")
-      val airplane2 = TestActorRef(new AirplaneActor(actorRef, ActivityDetails("456", Takeoff, 20, 0)), "456")
+      val airplane2 = TestActorRef(new AirplaneActor(actorRef, ActivityDetails("456", Takeoff, 20, 0)), "Flight-456")
       Then("the tower should hold the second flight in a queue")
       val queue = actorRef.underlyingActor.waitingAircraft
       assert(queue.nonEmpty)
@@ -64,9 +64,9 @@ class TowerActorSpec
       Given("a tower actor and another aircraft already on runway")
       val actorRef = TestActorRef(new TowerActor)
       actorRef ! InitializeTower
-      val airplane1 = TestActorRef(new AirplaneActor(actorRef, ActivityDetails("123", Land, 20, 0)), "123")
+      val airplane1 = TestActorRef(new AirplaneActor(actorRef, ActivityDetails("123", Land, 20, 0)), "Flight-123")
       When("a second airplane wants to land")
-      val airplane2 = TestActorRef(new AirplaneActor(actorRef, ActivityDetails("456", Land, 20, 0)), "456")
+      val airplane2 = TestActorRef(new AirplaneActor(actorRef, ActivityDetails("456", Land, 20, 0)), "Flight-456")
       Then("the tower should hold the second flight in a queue")
       val queue = actorRef.underlyingActor.waitingAircraft
       assert(queue.nonEmpty)
