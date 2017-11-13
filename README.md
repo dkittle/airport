@@ -26,6 +26,7 @@ We’d like you to
 - We should be able to see the flow of control from the logging statements generated
 - Your solution should be event driven - you do not need to use an external messaging system (RabbitMQ, Resque, ActiveMQ, SQS, etc) but you can. You can also build services that communicate using pub/sub communication, Akka actors or any other solution that passes typed messages between loosely coupled services.
 - We’d like to see test coverage, where it seems important
+- We'd like some way of sending the sample simulation data to your solution and see (via logging output) that your solution works.
 
 ## A few things to keep in mind
 We’d like to look at your code without you walking us through it. We want to see a clear separation of services, a well defined set of models and be able to understand the types of events that cause state transitions in your solution.
